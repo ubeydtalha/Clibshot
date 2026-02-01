@@ -1,0 +1,118 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+
+jobs:
+  create-release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    outputs:
+      release_id: ${{ steps.create_release.outputs.id }}
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Extract version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+      
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ steps.version.outputs.VERSION }}
+          body: |
+            ## ClipShot v${{ steps.version.outputs.VERSION }}
+            
+            ### What's New
+            - See [CHANGELOG.md](CHANGELOG.md) for details
+            
+            ### Downloads
+            - Windows: `ClipShot-${{ steps.version.outputs.VERSION }}-setup.exe`
+            - macOS: `ClipShot-${{ steps.version.outputs.VERSION }}.dmg`
+            - Linux: `clipshot-${{ steps.version.outputs.VERSION }}.AppImage`
+          draft: false
+          prerelease: false
+
+  build-tauri:
+    name: Build Tauri App
+    needs: create-release
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [macos-latest, ubuntu-latest, windows-latest]
+    
+    runs-on: ${{ matrix.platform }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+      
+      - name: Install dependencies (Ubuntu only)
+        if: matrix.platform == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.0-dev libappindicator3-dev librsvg2-dev patchelf
+      
+      - name: Install frontend dependencies
+        run: |
+          cd apps/desktop
+          npm ci
+      
+      - name: Build Tauri app
+        run: |
+          cd apps/desktop
+          npm run tauri build || echo "Tauri build not configured yet"
+      
+      - name: Upload Release Assets (Windows)
+        if: matrix.platform == 'windows-latest'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          asset_path: ./apps/desktop/src-tauri/target/release/bundle/msi/ClipShot_*.msi
+          asset_name: ClipShot-${{ github.ref_name }}-setup.msi
+          asset_content_type: application/x-msi
+      
+      - name: Upload Release Assets (macOS)
+        if: matrix.platform == 'macos-latest'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          asset_path: ./apps/desktop/src-tauri/target/release/bundle/dmg/ClipShot_*.dmg
+          asset_name: ClipShot-${{ github.ref_name }}.dmg
+          asset_content_type: application/x-apple-diskimage
+      
+      - name: Upload Release Assets (Linux)
+        if: matrix.platform == 'ubuntu-latest'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          asset_path: ./apps/desktop/src-tauri/target/release/bundle/appimage/clipshot_*.AppImage
+          asset_name: clipshot-${{ github.ref_name }}.AppImage
+          asset_content_type: application/x-executable

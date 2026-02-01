@@ -1,0 +1,66 @@
+{
+  "$schema": "https://clipshot.dev/schemas/locale.json",
+  "app": {
+    "name": "ClipShot",
+    "tagline": "Clips de Juegos con IA"
+  },
+  "actions": {
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "close": "Cerrar",
+    "create": "Crear",
+    "update": "Actualizar",
+    "refresh": "Actualizar",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "sort": "Ordenar",
+    "export": "Exportar",
+    "import": "Importar",
+    "settings": "Configuración"
+  },
+  "time": {
+    "seconds": "{count, plural, one {# segundo} other {# segundos}}",
+    "minutes": "{count, plural, one {# minuto} other {# minutos}}",
+    "hours": "{count, plural, one {# hora} other {# horas}}",
+    "days": "{count, plural, one {# día} other {# días}}",
+    "ago": "hace {time}",
+    "remaining": "{time} restante",
+    "now": "Ahora",
+    "today": "Hoy",
+    "yesterday": "Ayer",
+    "tomorrow": "Mañana"
+  },
+  "files": {
+    "size": "{size, number, ::compact-short unit/byte}",
+    "count": "{count, plural, =0 {Sin archivos} one {# archivo} other {# archivos}}"
+  },
+  "notifications": {
+    "clipSaved": "Clip guardado exitosamente",
+    "clipDeleted": "Clip eliminado",
+    "exportComplete": "Exportación completa: {filename}",
+    "uploadProgress": "Subiendo... {progress, number, ::percent}",
+    "processingComplete": "Procesamiento completo",
+    "errorOccurred": "Ocurrió un error"
+  },
+  "errors": {
+    "generic": "Algo salió mal. Por favor, inténtelo de nuevo.",
+    "network": "Error de red. Verifique su conexión.",
+    "permission": "Permiso denegado: {permission}",
+    "fileNotFound": "Archivo no encontrado: {path}",
+    "invalidInput": "Entrada inválida",
+    "unauthorized": "Acceso no autorizado",
+    "serverError": "Error del servidor"
+  },
+  "status": {
+    "ready": "Listo",
+    "processing": "Procesando...",
+    "loading": "Cargando...",
+    "saving": "Guardando...",
+    "complete": "Completo",
+    "failed": "Fallido",
+    "pending": "Pendiente"
+  }
+}

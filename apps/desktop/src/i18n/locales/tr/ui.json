@@ -1,0 +1,59 @@
+{
+  "nav": {
+    "home": "Ana Sayfa",
+    "clips": "Klipler",
+    "settings": "Ayarlar",
+    "marketplace": "Market",
+    "dev": "Geliştirici"
+  },
+  "header": {
+    "recording": "Kaydediliyor",
+    "stopped": "Durduruldu",
+    "processing": "İşleniyor..."
+  },
+  "sidebar": {
+    "recentClips": "Son Klipler",
+    "favorites": "Favoriler",
+    "allClips": "Tüm Klipler",
+    "plugins": "Eklentiler"
+  },
+  "buttons": {
+    "startRecording": "Kaydı Başlat",
+    "stopRecording": "Kaydı Durdur",
+    "createClip": "Klip Oluştur",
+    "export": "Dışa Aktar",
+    "share": "Paylaş",
+    "download": "İndir",
+    "upload": "Yükle",
+    "play": "Oynat",
+    "pause": "Duraklat",
+    "stop": "Durdur"
+  },
+  "labels": {
+    "duration": "Süre",
+    "quality": "Kalite",
+    "resolution": "Çözünürlük",
+    "fps": "FPS",
+    "codec": "Kodek",
+    "bitrate": "Bit Hızı",
+    "size": "Boyut",
+    "format": "Format",
+    "created": "Oluşturulma",
+    "modified": "Değiştirilme"
+  },
+  "placeholders": {
+    "search": "Klip ara...",
+    "title": "Başlık girin...",
+    "description": "Açıklama ekleyin...",
+    "tags": "Etiket ekleyin..."
+  },
+  "tooltips": {
+    "settings": "Ayarları aç",
+    "fullscreen": "Tam ekran aç/kapat",
+    "mute": "Sessiz/Sesli",
+    "volume": "Ses: %{level}",
+    "delete": "Klipi sil",
+    "edit": "Klipi düzenle",
+    "share": "Klipi paylaş"
+  }
+}
