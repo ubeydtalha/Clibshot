@@ -22,6 +22,7 @@ from src.config import settings
 from src.core.logging import setup_logging, get_logger
 from src.core.events import EventBus
 from src.core.exceptions import ClipShotError
+from src.plugins.manager import PluginManager
 
 logger = get_logger(__name__)
 
@@ -39,10 +40,10 @@ async def lifespan(app: FastAPI) -> Any:
     # TODO: Initialize database
     # await init_db()
     
-    # TODO: Load plugins
-    # plugin_manager = PluginManager()
-    # await plugin_manager.discover_and_load()
-    # app.state.plugin_manager = plugin_manager
+    # Load plugins
+    plugin_manager = PluginManager()
+    await plugin_manager.discover_and_load()
+    app.state.plugin_manager = plugin_manager
     
     logger.info("Application startup complete")
     
@@ -51,8 +52,8 @@ async def lifespan(app: FastAPI) -> Any:
     # Shutdown
     logger.info("Shutting down application")
     
-    # TODO: Shutdown plugins
-    # await plugin_manager.shutdown_all()
+    # Shutdown plugins
+    await plugin_manager.shutdown_all()
     
     # Close event bus
     await event_bus.close()
@@ -174,8 +175,8 @@ Modüler gaming AI platformu için RESTful API.
         )
     
     # TODO: Include API routers
-    # from src.api.v1.router import api_router
-    # app.include_router(api_router, prefix="/api")
+    from src.api.v1.router import api_router
+    app.include_router(api_router, prefix="/api")
     
     return app
 
