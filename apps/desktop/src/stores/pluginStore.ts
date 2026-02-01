@@ -9,7 +9,7 @@ interface PluginStore {
   loadPlugins: () => Promise<void>;
   loadPlugin: (path: string) => Promise<void>;
   unloadPlugin: (id: string) => Promise<void>;
-  getPluginInfo: (id: string) => Promise<void>;
+  refreshPluginInfo: (id: string) => Promise<void>;
 }
 
 export const usePluginStore = create<PluginStore>((set, get) => ({
@@ -47,7 +47,7 @@ export const usePluginStore = create<PluginStore>((set, get) => ({
     }
   },
 
-  getPluginInfo: async (id: string) => {
+  refreshPluginInfo: async (id: string) => {
     set({ loading: true, error: null });
     try {
       const plugin = await tauriAPI.plugins.getInfo(id);

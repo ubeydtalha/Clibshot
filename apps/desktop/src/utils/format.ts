@@ -35,11 +35,18 @@ export function formatFileSize(bytes: number): string {
 
 /**
  * Format date to relative time (e.g., "2 hours ago")
+ * Note: Dates in the future will show as "Just now"
  */
 export function formatRelativeTime(date: string | Date): string {
   const now = new Date();
   const then = typeof date === 'string' ? new Date(date) : date;
   const diffMs = now.getTime() - then.getTime();
+  
+  // Handle future dates
+  if (diffMs < 0) {
+    return 'Just now';
+  }
+  
   const diffSecs = Math.floor(diffMs / 1000);
   const diffMins = Math.floor(diffSecs / 60);
   const diffHours = Math.floor(diffMins / 60);
