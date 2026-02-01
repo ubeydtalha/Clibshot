@@ -1,0 +1,212 @@
+# ============================================================================
+# CLIPSHOT - .gitignore
+# ============================================================================
+
+# ============================================================================
+# DEPENDENCIES
+# ============================================================================
+node_modules/
+.pnpm-store/
+.yarn/
+bower_components/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+venv/
+.venv/
+ENV/
+env/
+.env/
+
+# ============================================================================
+# BUILD OUTPUTS
+# ============================================================================
+dist/
+out/
+build/
+*.build/
+release/
+.output/
+.next/
+.nuxt/
+
+# Electron specific
+apps/desktop/dist/
+apps/desktop/release/
+
+# ============================================================================
+# IDE & EDITORS
+# ============================================================================
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.settings/
+.classpath
+*.sublime-workspace
+*.sublime-project
+
+# Keep these VS Code files
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
+
+# ============================================================================
+# OPERATING SYSTEM
+# ============================================================================
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Linux
+.directory
+.Trash-*
+
+# ============================================================================
+# LOGS & CACHES
+# ============================================================================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+.eslintcache
+.stylelintcache
+*.tsbuildinfo
+.cache/
+.parcel-cache/
+.turbo/
+
+# ============================================================================
+# TESTING
+# ============================================================================
+coverage/
+.nyc_output/
+*.lcov
+.coverage
+htmlcov/
+.tox/
+.nox/
+.hypothesis/
+.pytest_cache/
+test-results/
+junit.xml
+
+# ============================================================================
+# ENVIRONMENT & SECRETS
+# ============================================================================
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env*.local
+*.pem
+*.key
+secrets.json
+credentials.json
+
+# ============================================================================
+# AI MODELS
+# ============================================================================
+models/
+*.gguf
+*.onnx
+*.bin
+*.safetensors
+*.pt
+*.pth
+!models/.gitkeep
+
+# ============================================================================
+# USER DATA
+# ============================================================================
+clips/
+exports/
+temp/
+thumbnails/
+*.mp4
+*.webm
+*.mkv
+*.avi
+*.mov
+*.gif
+!assets/**/*.gif
+
+# ============================================================================
+# PLUGIN DATA
+# ============================================================================
+plugins/*/data/
+plugins/*/cache/
+plugins/*/.env
+
+# ============================================================================
+# DATABASE
+# ============================================================================
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+*.db-wal
+*.db-shm
+
+# ============================================================================
+# MISCELLANEOUS
+# ============================================================================
+*.pid
+*.seed
+*.pid.lock
+.lock
+*.lock
+!pnpm-lock.yaml
+!package-lock.json
+!yarn.lock
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Storybook
+storybook-static/
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# Generated files
+*.generated.*
+*.auto.*
