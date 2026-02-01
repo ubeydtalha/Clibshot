@@ -2,6 +2,7 @@
 
 > **Modular Gaming Clip Platform** — Full-stack application with Tauri + React + Python + FastAPI
 
+[![Version](https://img.shields.io/badge/Version-v0.1.0-blue)](https://github.com/ubeydtalha/Clibshot/releases)
 [![Status](https://img.shields.io/badge/Status-Production_Ready-success)](SUCCESS_SUMMARY.md)
 [![Tests](https://img.shields.io/badge/Tests-128/128-brightgreen)](TESTING.md)
 [![Desktop](https://img.shields.io/badge/Desktop-Tauri%202.0-blue)](apps/desktop)
@@ -10,7 +11,8 @@
 
 ClipShot is a plugin-driven desktop application for capturing, managing, and enhancing gaming clips with AI-powered features.
 
-**✅ Production Ready** — 128/128 tests passing, full documentation, deployment-ready
+**✅ v0.1.0 Production Ready** — 128/128 tests passing, full documentation, deployment-ready  
+**🚧 Phase 2 In Progress** — See [PHASE2_PLAN.md](PHASE2_PLAN.md) for upcoming features
 
 ---
 
@@ -517,6 +519,26 @@ result = await runtime.infer(clip_data)
 
 ---
 
+## �️ Roadmap
+
+### Phase 1 — Core Platform ✅ Complete (v0.1.0)
+- [x] Backend API with FastAPI
+- [x] Plugin system with hot-reload
+- [x] Desktop app with Tauri
+- [x] 128/128 tests passing
+- [x] Full documentation
+
+### Phase 2 — Advanced Features 🚧 In Progress
+- [ ] Plugin Marketplace & Discovery
+- [ ] AI Integration (Multiple Providers)
+- [ ] Advanced Clip Editor
+- [ ] Security Layer (Auth, RBAC)
+- [ ] Performance Optimization
+
+See [PHASE2_PLAN.md](PHASE2_PLAN.md) for detailed Phase 2 roadmap.
+
+---
+
 ## 📚 Documentation
 
 - [🎯 Master AI Instruction](docs/00_MASTER_AI_INSTRUCTION.md)
@@ -531,6 +553,13 @@ result = await runtime.infer(clip_data)
 - [📊 Performance & MCP](docs/09_PERFORMANCE_MCP.md)
 - [🦀 Native Plugin Guide](docs/10_NATIVE_PLUGIN_GUIDE.md)
 - [📚 Recommended Libraries](docs/11_RECOMMENDED_LIBRARIES.md)
+
+**Additional Resources:**
+- [🎯 Features Overview](FEATURES.md)
+- [🧪 Testing Guide](TESTING.md)
+- [🚀 Deployment Guide](DEPLOYMENT.md)
+- [✅ Success Summary](SUCCESS_SUMMARY.md)
+- [📋 Phase 2 Plan](PHASE2_PLAN.md)
 
 ---
 
