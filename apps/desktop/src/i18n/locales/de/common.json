@@ -1,0 +1,66 @@
+{
+  "$schema": "https://clipshot.dev/schemas/locale.json",
+  "app": {
+    "name": "ClipShot",
+    "tagline": "KI-gestützte Gaming-Clips"
+  },
+  "actions": {
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "confirm": "Bestätigen",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "close": "Schließen",
+    "create": "Erstellen",
+    "update": "Aktualisieren",
+    "refresh": "Aktualisieren",
+    "search": "Suchen",
+    "filter": "Filtern",
+    "sort": "Sortieren",
+    "export": "Exportieren",
+    "import": "Importieren",
+    "settings": "Einstellungen"
+  },
+  "time": {
+    "seconds": "{count, plural, one {# Sekunde} other {# Sekunden}}",
+    "minutes": "{count, plural, one {# Minute} other {# Minuten}}",
+    "hours": "{count, plural, one {# Stunde} other {# Stunden}}",
+    "days": "{count, plural, one {# Tag} other {# Tage}}",
+    "ago": "vor {time}",
+    "remaining": "noch {time}",
+    "now": "Jetzt",
+    "today": "Heute",
+    "yesterday": "Gestern",
+    "tomorrow": "Morgen"
+  },
+  "files": {
+    "size": "{size, number, ::compact-short unit/byte}",
+    "count": "{count, plural, =0 {Keine Dateien} one {# Datei} other {# Dateien}}"
+  },
+  "notifications": {
+    "clipSaved": "Clip erfolgreich gespeichert",
+    "clipDeleted": "Clip gelöscht",
+    "exportComplete": "Export abgeschlossen: {filename}",
+    "uploadProgress": "Wird hochgeladen... {progress, number, ::percent}",
+    "processingComplete": "Verarbeitung abgeschlossen",
+    "errorOccurred": "Ein Fehler ist aufgetreten"
+  },
+  "errors": {
+    "generic": "Etwas ist schief gelaufen. Bitte versuchen Sie es erneut.",
+    "network": "Netzwerkfehler. Überprüfen Sie Ihre Verbindung.",
+    "permission": "Zugriff verweigert: {permission}",
+    "fileNotFound": "Datei nicht gefunden: {path}",
+    "invalidInput": "Ungültige Eingabe",
+    "unauthorized": "Unbefugter Zugriff",
+    "serverError": "Serverfehler aufgetreten"
+  },
+  "status": {
+    "ready": "Bereit",
+    "processing": "Verarbeitung...",
+    "loading": "Laden...",
+    "saving": "Speichern...",
+    "complete": "Abgeschlossen",
+    "failed": "Fehlgeschlagen",
+    "pending": "Ausstehend"
+  }
+}
