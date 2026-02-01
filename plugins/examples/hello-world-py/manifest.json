@@ -1,0 +1,85 @@
+{
+  "$schema": "https://clipshot.io/schemas/manifest.v2.schema.json",
+  "id": "com.clipshot.hello-world-py",
+  "name": "Hello World Python",
+  "version": "1.0.0",
+  "api_version": "v1",
+  "type": "optional",
+  "category": "enhancement",
+  "description": {
+    "en": "A simple example plugin that demonstrates the Python SDK",
+    "tr": "Python SDK'sını gösteren basit bir örnek plugin"
+  },
+  "author": {
+    "name": "ClipShot Team",
+    "email": "dev@clipshot.io",
+    "url": "https://github.com/ubeydtalha/Clibshot"
+  },
+  "repository": "https://github.com/ubeydtalha/Clibshot",
+  "license": "MIT",
+  "homepage": "https://clipshot.io",
+  "keywords": ["example", "demo", "python"],
+  "entry": {
+    "backend": "src/main.py"
+  },
+  "permissions": {
+    "screen": {
+      "level": "none"
+    },
+    "microphone": {
+      "level": "none"
+    },
+    "filesystem": {
+      "level": "limited",
+      "paths": ["$PLUGIN_DATA"],
+      "reason": {
+        "en": "Store plugin state",
+        "tr": "Plugin durumunu sakla"
+      }
+    },
+    "network": {
+      "level": "none"
+    },
+    "gpu": {
+      "level": "none"
+    },
+    "system": {
+      "level": "none"
+    }
+  },
+  "settings": {
+    "schema": "config.schema.json",
+    "defaults": {
+      "enabled": true,
+      "logLevel": "info",
+      "message": "Hello from ClipShot!"
+    }
+  },
+  "ui": {
+    "settingsPanel": true,
+    "toolbar": false,
+    "sidebar": false,
+    "overlay": false
+  },
+  "localization": {
+    "supported": ["en", "tr"],
+    "fallback": "en",
+    "path": "locales/"
+  },
+  "resources": {
+    "cpu": {
+      "max_percent": 5
+    },
+    "memory": {
+      "max_mb": 64
+    },
+    "gpu": {
+      "max_percent": 0
+    }
+  },
+  "platforms": ["windows", "linux", "macos"],
+  "engines": {
+    "clipshot": ">=1.0.0",
+    "python": ">=3.11"
+  }
+}
