@@ -1,0 +1,18 @@
+{
+  "plugin": {
+    "name": "Merhaba Dünya Python",
+    "description": "Python SDK'sını gösteren basit bir örnek plugin"
+  },
+  "settings": {
+    "title": "Ayarlar",
+    "enabled": "Etkin",
+    "logLevel": "Log Seviyesi",
+    "message": "Özel Mesaj"
+  },
+  "messages": {
+    "initialized": "Plugin başarıyla başlatıldı!",
+    "shutdown": "Plugin kapatılıyor. Hoşça kal!",
+    "clipCaptured": "Clip yakalandı: {title}",
+    "gameDetected": "Oyun tespit edildi: {name}"
+  }
+}
