@@ -1,0 +1,17 @@
+{
+  "plugin": {
+    "name": "C++ Demo Plugin",
+    "description": "A high-performance C++ plugin demonstrating native integration with pybind11"
+  },
+  "settings": {
+    "title": "Settings",
+    "enabled": "Enabled",
+    "useOpenCL": "Use OpenCL Acceleration",
+    "bufferSize": "Buffer Size"
+  },
+  "messages": {
+    "initialized": "C++ plugin initialized successfully!",
+    "shutdown": "C++ plugin shutting down.",
+    "frameProcessed": "Frame processed: {width}x{height}"
+  }
+}
