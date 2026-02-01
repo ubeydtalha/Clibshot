@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "enabled": {
+      "type": "boolean",
+      "description": "Enable or disable the plugin",
+      "default": true
+    },
+    "logLevel": {
+      "type": "string",
+      "enum": ["debug", "info", "warning", "error"],
+      "description": "Logging level",
+      "default": "info"
+    },
+    "message": {
+      "type": "string",
+      "description": "Custom greeting message",
+      "default": "Hello from ClipShot!",
+      "minLength": 1,
+      "maxLength": 100
+    }
+  },
+  "required": ["enabled", "logLevel"],
+  "additionalProperties": false
+}

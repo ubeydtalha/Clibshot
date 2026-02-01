@@ -1,0 +1,86 @@
+{
+  "$schema": "https://clipshot.io/schemas/manifest.v2.schema.json",
+  "id": "com.clipshot.rust-demo",
+  "name": "Rust Demo Plugin",
+  "version": "1.0.0",
+  "api_version": "v1",
+  "type": "optional",
+  "category": "enhancement",
+  "description": {
+    "en": "A high-performance Rust plugin demonstrating native integration with PyO3",
+    "tr": "PyO3 ile native entegrasyonu gösteren yüksek performanslı Rust plugin"
+  },
+  "author": {
+    "name": "ClipShot Team",
+    "email": "dev@clipshot.io",
+    "url": "https://github.com/ubeydtalha/Clibshot"
+  },
+  "repository": "https://github.com/ubeydtalha/Clibshot",
+  "license": "MIT",
+  "homepage": "https://clipshot.io",
+  "keywords": ["example", "demo", "rust", "native", "performance"],
+  "entry": {
+    "backend": "rust_demo_plugin"
+  },
+  "native": {
+    "language": "rust",
+    "abi_version": 1,
+    "ffi": {
+      "bridge": "pyo3",
+      "module_name": "rust_demo_plugin",
+      "entry_class": "RustDemoPlugin"
+    }
+  },
+  "permissions": {
+    "screen": {
+      "level": "none"
+    },
+    "microphone": {
+      "level": "none"
+    },
+    "filesystem": {
+      "level": "limited",
+      "paths": ["$PLUGIN_DATA"],
+      "reason": {
+        "en": "Store processed data",
+        "tr": "İşlenmiş veriyi sakla"
+      }
+    },
+    "network": {
+      "level": "none"
+    },
+    "gpu": {
+      "level": "optional",
+      "reason": {
+        "en": "Hardware acceleration for image processing",
+        "tr": "Görüntü işleme için donanım hızlandırma"
+      }
+    },
+    "system": {
+      "level": "none"
+    }
+  },
+  "settings": {
+    "defaults": {
+      "enabled": true,
+      "useSIMD": true,
+      "threadCount": 4
+    }
+  },
+  "resources": {
+    "cpu": {
+      "max_percent": 25
+    },
+    "memory": {
+      "max_mb": 256
+    },
+    "gpu": {
+      "max_percent": 10
+    }
+  },
+  "platforms": ["windows", "linux", "macos"],
+  "engines": {
+    "clipshot": ">=1.0.0",
+    "rust": ">=1.75"
+  }
+}

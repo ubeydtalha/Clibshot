@@ -1,0 +1,18 @@
+{
+  "plugin": {
+    "name": "Hello World Python",
+    "description": "A simple example plugin that demonstrates the Python SDK"
+  },
+  "settings": {
+    "title": "Settings",
+    "enabled": "Enabled",
+    "logLevel": "Log Level",
+    "message": "Custom Message"
+  },
+  "messages": {
+    "initialized": "Plugin initialized successfully!",
+    "shutdown": "Plugin shutting down. Goodbye!",
+    "clipCaptured": "Clip captured: {title}",
+    "gameDetected": "Game detected: {name}"
+  }
+}

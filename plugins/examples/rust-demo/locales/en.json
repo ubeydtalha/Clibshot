@@ -1,0 +1,17 @@
+{
+  "plugin": {
+    "name": "Rust Demo Plugin",
+    "description": "A high-performance Rust plugin demonstrating native integration with PyO3"
+  },
+  "settings": {
+    "title": "Settings",
+    "enabled": "Enabled",
+    "useSIMD": "Use SIMD Optimizations",
+    "threadCount": "Thread Count"
+  },
+  "messages": {
+    "initialized": "Rust plugin initialized successfully!",
+    "shutdown": "Rust plugin shutting down.",
+    "clipProcessed": "Clip processed: {title}"
+  }
+}
