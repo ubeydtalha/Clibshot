@@ -1,0 +1,59 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "clips": "Clips",
+    "settings": "Configuración",
+    "marketplace": "Mercado",
+    "dev": "Desarrollador"
+  },
+  "header": {
+    "recording": "Grabando",
+    "stopped": "Detenido",
+    "processing": "Procesando..."
+  },
+  "sidebar": {
+    "recentClips": "Clips Recientes",
+    "favorites": "Favoritos",
+    "allClips": "Todos los Clips",
+    "plugins": "Plugins"
+  },
+  "buttons": {
+    "startRecording": "Iniciar Grabación",
+    "stopRecording": "Detener Grabación",
+    "createClip": "Crear Clip",
+    "export": "Exportar",
+    "share": "Compartir",
+    "download": "Descargar",
+    "upload": "Subir",
+    "play": "Reproducir",
+    "pause": "Pausar",
+    "stop": "Detener"
+  },
+  "labels": {
+    "duration": "Duración",
+    "quality": "Calidad",
+    "resolution": "Resolución",
+    "fps": "FPS",
+    "codec": "Códec",
+    "bitrate": "Tasa de Bits",
+    "size": "Tamaño",
+    "format": "Formato",
+    "created": "Creado",
+    "modified": "Modificado"
+  },
+  "placeholders": {
+    "search": "Buscar clips...",
+    "title": "Ingresar título...",
+    "description": "Agregar descripción...",
+    "tags": "Agregar etiquetas..."
+  },
+  "tooltips": {
+    "settings": "Abrir configuración",
+    "fullscreen": "Alternar pantalla completa",
+    "mute": "Silenciar/Activar sonido",
+    "volume": "Volumen: {level}%",
+    "delete": "Eliminar clip",
+    "edit": "Editar clip",
+    "share": "Compartir clip"
+  }
+}

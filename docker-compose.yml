@@ -1,0 +1,74 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: clipshot-postgres
+    environment:
+      POSTGRES_DB: clipshot
+      POSTGRES_USER: clipshot
+      POSTGRES_PASSWORD: clipshot_dev_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U clipshot"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - clipshot-network
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: clipshot-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - clipshot-network
+
+  # FastAPI Backend
+  backend:
+    build:
+      context: ..
+      dockerfile: docker/backend.Dockerfile
+    container_name: clipshot-backend
+    environment:
+      - DATABASE_URL=postgresql://clipshot:clipshot_dev_password@postgres:5432/clipshot
+      - REDIS_URL=redis://redis:6379
+      - ENV=development
+    ports:
+      - "8000:8000"
+    volumes:
+      - ../apps/backend:/app
+      - backend_data:/data
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - clipshot-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  backend_data:
+    driver: local
+
+networks:
+  clipshot-network:
+    driver: bridge
