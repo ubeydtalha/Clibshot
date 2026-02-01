@@ -4,7 +4,7 @@ Modern Tauri + Vite + React desktop application for gaming clip management.
 
 ## Prerequisites
 
-- **Node.js** 20+ and npm (or pnpm for faster installs)
+- **Node.js** 20+ with npm
 - **Rust** (latest stable) - Install from https://rustup.rs
 - **Python** 3.11+ (for PyO3 bridge)
 - **System dependencies**:
