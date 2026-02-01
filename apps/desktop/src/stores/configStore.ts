@@ -1,5 +1,4 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
 
 interface ConfigStore {
   theme: 'light' | 'dark' | 'system';
@@ -16,27 +15,32 @@ interface ConfigStore {
   updateCaptureSettings: (settings: Partial<ConfigStore['captureSettings']>) => void;
 }
 
-export const useConfigStore = create<ConfigStore>()(
-  persist(
-    (set) => ({
-      theme: 'system',
-      language: 'en',
-      captureSettings: {
-        quality: 'high',
-        fps: 60,
-        codec: 'h264',
-        autoCapture: true,
-      },
+// Note: For persistence, consider using localStorage directly or a persistence library
+export const useConfigStore = create<ConfigStore>((set) => ({
+  theme: 'system',
+  language: 'en',
+  captureSettings: {
+    quality: 'high',
+    fps: 60,
+    codec: 'h264',
+    autoCapture: true,
+  },
 
-      setTheme: (theme) => set({ theme }),
-      setLanguage: (language) => set({ language }),
-      updateCaptureSettings: (settings) =>
-        set((state) => ({
-          captureSettings: { ...state.captureSettings, ...settings },
-        })),
-    }),
-    {
-      name: 'clipshot-config',
+  setTheme: (theme) => {
+    set({ theme });
+    // Persist to localStorage
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('clipshot-theme', theme);
     }
-  )
-);
+  },
+  setLanguage: (language) => {
+    set({ language });
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('clipshot-language', language);
+    }
+  },
+  updateCaptureSettings: (settings) =>
+    set((state) => ({
+      captureSettings: { ...state.captureSettings, ...settings },
+    })),
+}));
