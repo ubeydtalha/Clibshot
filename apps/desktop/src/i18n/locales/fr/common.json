@@ -1,0 +1,66 @@
+{
+  "$schema": "https://clipshot.dev/schemas/locale.json",
+  "app": {
+    "name": "ClipShot",
+    "tagline": "Clips de Jeux Alimentés par l'IA"
+  },
+  "actions": {
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "confirm": "Confirmer",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "close": "Fermer",
+    "create": "Créer",
+    "update": "Mettre à jour",
+    "refresh": "Actualiser",
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "sort": "Trier",
+    "export": "Exporter",
+    "import": "Importer",
+    "settings": "Paramètres"
+  },
+  "time": {
+    "seconds": "{count, plural, one {# seconde} other {# secondes}}",
+    "minutes": "{count, plural, one {# minute} other {# minutes}}",
+    "hours": "{count, plural, one {# heure} other {# heures}}",
+    "days": "{count, plural, one {# jour} other {# jours}}",
+    "ago": "il y a {time}",
+    "remaining": "{time} restant",
+    "now": "Maintenant",
+    "today": "Aujourd'hui",
+    "yesterday": "Hier",
+    "tomorrow": "Demain"
+  },
+  "files": {
+    "size": "{size, number, ::compact-short unit/byte}",
+    "count": "{count, plural, =0 {Aucun fichier} one {# fichier} other {# fichiers}}"
+  },
+  "notifications": {
+    "clipSaved": "Clip enregistré avec succès",
+    "clipDeleted": "Clip supprimé",
+    "exportComplete": "Exportation terminée : {filename}",
+    "uploadProgress": "Téléchargement... {progress, number, ::percent}",
+    "processingComplete": "Traitement terminé",
+    "errorOccurred": "Une erreur s'est produite"
+  },
+  "errors": {
+    "generic": "Une erreur s'est produite. Veuillez réessayer.",
+    "network": "Erreur réseau. Vérifiez votre connexion.",
+    "permission": "Permission refusée : {permission}",
+    "fileNotFound": "Fichier introuvable : {path}",
+    "invalidInput": "Entrée invalide",
+    "unauthorized": "Accès non autorisé",
+    "serverError": "Erreur serveur"
+  },
+  "status": {
+    "ready": "Prêt",
+    "processing": "Traitement...",
+    "loading": "Chargement...",
+    "saving": "Enregistrement...",
+    "complete": "Terminé",
+    "failed": "Échoué",
+    "pending": "En attente"
+  }
+}

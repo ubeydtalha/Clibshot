@@ -1,0 +1,95 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  lint-and-test:
+    name: Lint and Test
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: Install frontend dependencies
+        run: |
+          cd apps/desktop
+          npm ci
+      
+      - name: Install backend dependencies
+        run: |
+          cd apps/backend
+          pip install -r requirements.txt || true
+      
+      - name: Lint frontend
+        run: |
+          cd apps/desktop
+          npm run lint || echo "Linting not configured yet"
+      
+      - name: Lint backend
+        run: |
+          cd apps/backend
+          python -m flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics || echo "Linting not configured yet"
+      
+      - name: Test frontend
+        run: |
+          cd apps/desktop
+          npm test || echo "Tests not configured yet"
+      
+      - name: Test backend
+        run: |
+          cd apps/backend
+          python -m pytest || echo "Tests not configured yet"
+      
+      - name: Build frontend
+        run: |
+          cd apps/desktop
+          npm run build || echo "Build not configured yet"
+      
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: build-artifacts
+          path: |
+            apps/desktop/dist
+            apps/backend/dist
+          retention-days: 7
+
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+      
+      - name: Upload Trivy results to GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'

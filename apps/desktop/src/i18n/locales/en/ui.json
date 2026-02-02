@@ -1,0 +1,59 @@
+{
+  "nav": {
+    "home": "Home",
+    "clips": "Clips",
+    "settings": "Settings",
+    "marketplace": "Marketplace",
+    "dev": "Developer"
+  },
+  "header": {
+    "recording": "Recording",
+    "stopped": "Stopped",
+    "processing": "Processing..."
+  },
+  "sidebar": {
+    "recentClips": "Recent Clips",
+    "favorites": "Favorites",
+    "allClips": "All Clips",
+    "plugins": "Plugins"
+  },
+  "buttons": {
+    "startRecording": "Start Recording",
+    "stopRecording": "Stop Recording",
+    "createClip": "Create Clip",
+    "export": "Export",
+    "share": "Share",
+    "download": "Download",
+    "upload": "Upload",
+    "play": "Play",
+    "pause": "Pause",
+    "stop": "Stop"
+  },
+  "labels": {
+    "duration": "Duration",
+    "quality": "Quality",
+    "resolution": "Resolution",
+    "fps": "FPS",
+    "codec": "Codec",
+    "bitrate": "Bitrate",
+    "size": "Size",
+    "format": "Format",
+    "created": "Created",
+    "modified": "Modified"
+  },
+  "placeholders": {
+    "search": "Search clips...",
+    "title": "Enter title...",
+    "description": "Add description...",
+    "tags": "Add tags..."
+  },
+  "tooltips": {
+    "settings": "Open settings",
+    "fullscreen": "Toggle fullscreen",
+    "mute": "Mute/Unmute",
+    "volume": "Volume: {level}%",
+    "delete": "Delete clip",
+    "edit": "Edit clip",
+    "share": "Share clip"
+  }
+}
