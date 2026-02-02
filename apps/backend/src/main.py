@@ -1,150 +1,197 @@
+"""
+ClipShot Backend — FastAPI Application
+
+Main entry point for the FastAPI application with:
+- CORS middleware for Tauri frontend
+- API versioning (/api/v1)
+- Health check endpoint
+- Error handling middleware
+- Logging configuration
+- Plugin manager lifecycle
+"""
+
+from contextlib import asynccontextmanager
+from typing import Any, Dict
+
 from fastapi import FastAPI, Request, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from contextlib import asynccontextmanager
-import logging
-import sys
-import traceback
-from datetime import datetime
-import os
+from fastapi.openapi.docs import get_swagger_ui_html, get_redoc_html
 
-# Configure logging
-os.makedirs('logs', exist_ok=True)
-logging.basicConfig(
-    level=logging.DEBUG,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.StreamHandler(sys.stdout),
-        logging.FileHandler('logs/clipshot.log', mode='a')
-    ]
-)
-logger = logging.getLogger(__name__)
+from src.config import settings
+from src.core.logging import setup_logging, get_logger
+from src.core.events import EventBus
+from src.core.exceptions import ClipShotError
+from src.plugins.manager import PluginManager
 
-# Import database and create tables
-from .database import engine, Base
-from .models import Plugin, PluginConfiguration, Clip
+logger = get_logger(__name__)
 
-# Import routers
-from .routes import plugins, clips
 
 @asynccontextmanager
-async def lifespan(app: FastAPI):
+async def lifespan(app: FastAPI) -> Any:
+    """Application lifespan manager for startup and shutdown tasks."""
     # Startup
-    logger.info("ClipShot Backend starting...")
-    logger.info(f"Environment: {'production' if not app.debug else 'development'}")
-    logger.info(f"CORS origins configured: {app.middleware}")
+    logger.info(f"Starting {settings.APP_NAME} v{settings.VERSION}")
     
-    # Create database tables
-    logger.info("Creating database tables...")
-    Base.metadata.create_all(bind=engine)
-    logger.info("Database tables created successfully")
+    # Initialize event bus
+    event_bus = EventBus()
+    app.state.event_bus = event_bus
     
-    # Initialize plugin manager
-    from .plugin_manager import get_plugin_manager
-    pm = get_plugin_manager()
-    logger.info("Plugin manager initialized")
+    # TODO: Initialize database
+    # await init_db()
+    
+    # Load plugins
+    plugin_manager = PluginManager()
+    await plugin_manager.discover_and_load()
+    app.state.plugin_manager = plugin_manager
+    
+    logger.info("Application startup complete")
     
     yield
+    
     # Shutdown
-    logger.info("ClipShot Backend shutting down...")
-    logger.info("Cleaning up resources...")
-
-app = FastAPI(
-    title="ClipShot API",
-    description="Modular Gaming Clip Platform Backend",
-    version="0.1.0",
-    docs_url="/api/docs",
-    redoc_url="/api/redoc",
-    lifespan=lifespan
-)
-
-# Request logging middleware
-@app.middleware("http")
-async def log_requests(request: Request, call_next):
-    start_time = datetime.now()
-    logger.info(f"-> {request.method} {request.url.path}")
+    logger.info("Shutting down application")
     
-    try:
-        response = await call_next(request)
-        duration = (datetime.now() - start_time).total_seconds() * 1000
-        logger.info(f"<- {request.method} {request.url.path} - {response.status_code} ({duration:.2f}ms)")
-        return response
-    except Exception as e:
-        duration = (datetime.now() - start_time).total_seconds() * 1000
-        logger.error(f"ERROR {request.method} {request.url.path} - ({duration:.2f}ms): {str(e)}")
-        logger.error(traceback.format_exc())
-        raise
-
-# Global exception handler
-@app.exception_handler(Exception)
-async def global_exception_handler(request: Request, exc: Exception):
-    logger.error(f"Global exception handler caught: {type(exc).__name__}")
-    logger.error(f"Request: {request.method} {request.url}")
-    logger.error(f"Exception: {str(exc)}")
-    logger.error(traceback.format_exc())
+    # Shutdown plugins
+    await plugin_manager.shutdown_all()
     
-    return JSONResponse(
-        status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-        content={
-            "error": "Internal server error",
-            "detail": str(exc),
-            "type": type(exc).__name__,
-            "timestamp": datetime.now().isoformat()
-        }
+    # Close event bus
+    await event_bus.close()
+    
+    logger.info("Application shutdown complete")
+
+
+def create_app() -> FastAPI:
+    """Create and configure FastAPI application."""
+    
+    # Setup logging first
+    setup_logging()
+    
+    app = FastAPI(
+        title=settings.APP_NAME,
+        description="""
+## 🎮 ClipShot Backend API
+
+Modüler gaming AI platformu için RESTful API.
+
+### Özellikler
+- 📹 Ekran/Oyun kaydı
+- 🤖 AI highlight tespiti ve metadata üretimi
+- 🧩 Plugin sistemi
+- 🏪 Marketplace
+
+### Dokümantasyon
+- [Swagger UI](/docs)
+- [ReDoc](/redoc)
+- [OpenAPI JSON](/openapi.json)
+        """,
+        version=settings.VERSION,
+        openapi_url="/openapi.json",
+        docs_url=None,  # Custom docs endpoint
+        redoc_url=None,  # Custom redoc endpoint
+        lifespan=lifespan,
+        debug=settings.DEBUG,
     )
+    
+    # CORS middleware for Tauri frontend
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=settings.CORS_ORIGINS,
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+    
+    # Exception handlers
+    @app.exception_handler(ClipShotError)
+    async def clipshot_exception_handler(request: Request, exc: ClipShotError) -> JSONResponse:
+        """Handle ClipShot custom exceptions."""
+        logger.error(f"ClipShot error: {exc.code} - {exc.message}")
+        return JSONResponse(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            content={
+                "error": exc.code,
+                "message": exc.message,
+            },
+        )
+    
+    @app.exception_handler(Exception)
+    async def general_exception_handler(request: Request, exc: Exception) -> JSONResponse:
+        """Handle unexpected exceptions."""
+        logger.exception(f"Unexpected error: {exc}")
+        return JSONResponse(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            content={
+                "error": "INTERNAL_SERVER_ERROR",
+                "message": "An unexpected error occurred",
+            },
+        )
+    
+    # Health check endpoint
+    @app.get("/health", tags=["System"])
+    async def health_check() -> Dict[str, Any]:
+        """
+        Health check endpoint.
+        
+        Returns application health status including:
+        - Application version
+        - API status
+        - Plugin manager status (when implemented)
+        - Database status (when implemented)
+        """
+        return {
+            "status": "healthy",
+            "version": settings.VERSION,
+            "app_name": settings.APP_NAME,
+        }
+    
+    # Root endpoint
+    @app.get("/", tags=["System"])
+    async def root() -> Dict[str, str]:
+        """Root endpoint with API information."""
+        return {
+            "app": settings.APP_NAME,
+            "version": settings.VERSION,
+            "docs": "/docs",
+            "redoc": "/redoc",
+            "openapi": "/openapi.json",
+        }
+    
+    # Custom documentation endpoints
+    @app.get("/docs", include_in_schema=False)
+    async def custom_swagger_ui() -> Any:
+        """Custom Swagger UI endpoint."""
+        return get_swagger_ui_html(
+            openapi_url="/openapi.json",
+            title=f"{settings.APP_NAME} - API Docs",
+        )
+    
+    @app.get("/redoc", include_in_schema=False)
+    async def custom_redoc() -> Any:
+        """Custom ReDoc endpoint."""
+        return get_redoc_html(
+            openapi_url="/openapi.json",
+            title=f"{settings.APP_NAME} - ReDoc",
+        )
+    
+    # TODO: Include API routers
+    from src.api.v1.router import api_router
+    app.include_router(api_router, prefix="/api")
+    
+    return app
 
-# CORS middleware for Tauri
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=[
-        "tauri://localhost",
-        "http://localhost:5173",
-        "http://localhost:1420",  # Tauri dev server alternate port
-    ],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
-# Include API routers
-app.include_router(plugins.router, prefix="/api/v1")
-app.include_router(clips.router, prefix="/api/v1")
+# Application instance
+app = create_app()
 
-# Health check
-@app.get("/api/v1/health")
-async def health_check():
-    logger.debug("Health check requested")
-    return {
-        "status": "ok",
-        "service": "clipshot-backend",
-        "version": "0.1.0",
-        "timestamp": datetime.now().isoformat()
-    }
-
-# Root
-@app.get("/")
-async def root():
-    return {
-        "message": "ClipShot Backend API",
-        "docs": "/api/docs",
-        "health": "/api/v1/health"
-    }
-
-# AI endpoint (placeholder)
-@app.get("/api/v1/ai/models")
-async def list_ai_models():
-    return {
-        "models": [],
-        "count": 0,
-        "message": "AI runtime coming soon!"
-    }
 
 if __name__ == "__main__":
     import uvicorn
+    
     uvicorn.run(
-        "main:app",
+        "src.main:app",
         host="0.0.0.0",
         port=8000,
-        reload=True,
-        log_level="info"
+        reload=settings.DEBUG,
+        log_level=settings.LOG_LEVEL.lower(),
     )
