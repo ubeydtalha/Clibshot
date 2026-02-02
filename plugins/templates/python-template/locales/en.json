@@ -1,0 +1,14 @@
+{
+  "plugin": {
+    "name": "My Plugin",
+    "description": "A brief description of what your plugin does"
+  },
+  "settings": {
+    "title": "Settings",
+    "enabled": "Enabled"
+  },
+  "messages": {
+    "initialized": "Plugin initialized",
+    "shutdown": "Plugin shutting down"
+  }
+}

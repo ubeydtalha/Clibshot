@@ -1,0 +1,85 @@
+{
+  "$schema": "https://clipshot.io/schemas/manifest.v2.schema.json",
+  "id": "com.clipshot.cpp-demo",
+  "name": "C++ Demo Plugin",
+  "version": "1.0.0",
+  "api_version": "v1",
+  "type": "optional",
+  "category": "enhancement",
+  "description": {
+    "en": "A high-performance C++ plugin demonstrating native integration with pybind11",
+    "tr": "pybind11 ile native entegrasyonu gösteren yüksek performanslı C++ plugin"
+  },
+  "author": {
+    "name": "ClipShot Team",
+    "email": "dev@clipshot.io",
+    "url": "https://github.com/ubeydtalha/Clibshot"
+  },
+  "repository": "https://github.com/ubeydtalha/Clibshot",
+  "license": "MIT",
+  "homepage": "https://clipshot.io",
+  "keywords": ["example", "demo", "cpp", "native", "performance"],
+  "entry": {
+    "backend": "cpp_demo_plugin"
+  },
+  "native": {
+    "language": "cpp",
+    "abi_version": 1,
+    "ffi": {
+      "bridge": "pybind11",
+      "module_name": "cpp_demo_plugin",
+      "entry_class": "CppDemoPlugin"
+    }
+  },
+  "permissions": {
+    "screen": {
+      "level": "none"
+    },
+    "microphone": {
+      "level": "none"
+    },
+    "filesystem": {
+      "level": "limited",
+      "paths": ["$PLUGIN_DATA"],
+      "reason": {
+        "en": "Store processed data",
+        "tr": "İşlenmiş veriyi sakla"
+      }
+    },
+    "network": {
+      "level": "none"
+    },
+    "gpu": {
+      "level": "optional",
+      "reason": {
+        "en": "Hardware acceleration for video processing",
+        "tr": "Video işleme için donanım hızlandırma"
+      }
+    },
+    "system": {
+      "level": "none"
+    }
+  },
+  "settings": {
+    "defaults": {
+      "enabled": true,
+      "useOpenCL": false,
+      "bufferSize": 1024
+    }
+  },
+  "resources": {
+    "cpu": {
+      "max_percent": 30
+    },
+    "memory": {
+      "max_mb": 512
+    },
+    "gpu": {
+      "max_percent": 20
+    }
+  },
+  "platforms": ["windows", "linux", "macos"],
+  "engines": {
+    "clipshot": ">=1.0.0"
+  }
+}
